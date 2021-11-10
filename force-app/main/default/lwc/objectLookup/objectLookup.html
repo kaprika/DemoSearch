@@ -1,0 +1,9 @@
+<template>
+    <lightning-input type="search" onchange={handleKeyChange} class="slds-m-bottom_small" label={labelName}
+        value={searchKey}></lightning-input>
+    <template if:true={objectList}>
+        <template for:each={objectList} for:item="object" for:index="index">
+            <option key={object.Id}>{object.FIELD1} * {object.FIELD2} * {object.FIELD3} </option>
+        </template>
+    </template>
+</template>

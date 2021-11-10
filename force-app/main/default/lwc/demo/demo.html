@@ -1,0 +1,15 @@
+<template>
+    <div class="slds-p-horizontal_small">
+        <c-sobject-to-search onselected={handleSelection}></c-sobject-to-search>
+        <template if:true={sObjectSelected}>
+            <lightning-card variant="Narrow" title="Custom Lookup">
+                <div class="slds-p-horizontal_small">
+                    <c-object-lookup object-name={sObjectApiName} label-name={sObjectApiName} placeholder="Search..."
+                        fields={fields} where-conditions={whereConditions}
+                        order-by-asc={orderByAsc} order-by-desc={orderByDesc} limit-condition={limitCondition}>
+                    </c-object-lookup>
+                </div>
+            </lightning-card>
+        </template>
+    </div>
+</template>
