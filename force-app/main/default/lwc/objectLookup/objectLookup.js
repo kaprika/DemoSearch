@@ -1,4 +1,4 @@
-import { LightningElement, api, track, wire } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import findRecords from '@salesforce/apex/SearchController.findRecords';
 const DELAY = 200;
 
@@ -12,8 +12,9 @@ export default class ObjectLookup extends LightningElement {
     @api orderByAsc;
     @api orderByDesc;
     @api limitCondition;
+    resultMessage = false;
+    @api searchKey = '';
 
-    searchKey = '';
     field;
     field1;
     field2;
@@ -28,7 +29,10 @@ export default class ObjectLookup extends LightningElement {
         this.labelName = this.formatString(this.labelName);
 
         let fieldList = this.fields;
-        if (fieldList.length > 1) {
+        if (fieldList.length == 1) {
+            this.field = fieldList[0].trim();
+        }
+        else if (fieldList.length > 1) {
             this.field = fieldList[0].trim();
             this.field1 = fieldList[1].trim();
         }
@@ -38,6 +42,7 @@ export default class ObjectLookup extends LightningElement {
     }
 
     handleKeyChange(event) {
+        this.resultMessage = false;
         this.searchKey = event.target.value;
         window.clearTimeout(this.delayTimeout);
         this.delayTimeout = setTimeout(() => {
@@ -52,6 +57,9 @@ export default class ObjectLookup extends LightningElement {
                     limitCondition: this.limitCondition
                 })
                     .then(result => {
+                        if (result.length == 0) {
+                            this.resultMessage = true;
+                        }
                         let stringResult = JSON.stringify(result);
                         let allResult = JSON.parse(stringResult);
                         allResult.forEach(record => {
@@ -70,6 +78,9 @@ export default class ObjectLookup extends LightningElement {
                     })
                     .finally(() => {
                     });
+            }
+            else {
+                this.objectList = [];
             }
         }, DELAY);
     }
