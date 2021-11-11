@@ -3,7 +3,6 @@ import getSObjectTypeFields from '@salesforce/apex/SearchController.getSObjectTy
 
 export default class Demo extends LightningElement {
     @track fields = ['Name'];
-    searchKey = '';
     sObjectSelected = false;
     sObjectApiName;
     whereConditions = '';
@@ -17,7 +16,6 @@ export default class Demo extends LightningElement {
         this.sObjectSelected = true;
         this.sObjectApiName = event.detail;
         this.fieldsNames = [];
-        this.searchKey = '';
         getSObjectTypeFields({
             sObjectName: this.sObjectApiName
         })

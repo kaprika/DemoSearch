@@ -13,7 +13,7 @@ export default class ObjectLookup extends LightningElement {
     @api orderByDesc;
     @api limitCondition;
     resultMessage = false;
-    @api searchKey = '';
+    searchKey = '';
 
     field;
     field1;
