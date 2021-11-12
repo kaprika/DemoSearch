@@ -5,9 +5,9 @@
             <template if:true={sObjectSelected}>
                 <lightning-card variant="Narrow" title="Custom Lookup">
                     <div class="slds-p-horizontal_small">
-                        <c-object-lookup object-name={sObjectApiName} label-name={sObjectApiName}
-                            placeholder={placeholder} fields={fields} where-conditions={whereConditions}
-                            order-by-asc={orderByAsc} order-by-desc={orderByDesc} limit-condition={limitCondition}>
+                        <c-object-lookup object-name={sObjectApiName} label-name={labelName} placeholder={placeholder}
+                            fields={fields} where-conditions={whereConditions} order-by-asc={orderByAsc}
+                            order-by-desc={orderByDesc} limit-condition={limitCondition} search-key={searchKey}>
                         </c-object-lookup>
                         <!--  {fieldsNames}
                       -->

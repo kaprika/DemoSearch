@@ -3,9 +3,9 @@
         value={searchKey} placeholder={placeholder}></lightning-input>
     <template if:true={objectList}>
         <template for:each={objectList} for:item="object" for:index="index">
-            <option key={object.Id}>{object.FIELD1} * {object.FIELD2} * {object.FIELD3} </option>
+            <option key={object.Id}>{object.Name}</option>
         </template>
-        <template if:true={resultMessage}>
+        <template if:true={showResultMessage}>
             <div class="slds-var-m-vertical_small">
                 No records found.
             </div>
