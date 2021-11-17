@@ -34,9 +34,19 @@ public with sharing class SearchController{
     public static List<String> getSObjectTypes(){
         List<String> sObjectTypesList = new List<String>();
         for (Schema.SObjectType objectType : Schema.getGlobalDescribe().values()) {
-            String name = objectType.getDescribe().getName();
-            sObjectTypesList.add(name);
+            Schema.DescribeSObjectResult describeSObjectResultObject = objectType.getDescribe();
+            if (describeSObjectResultObject.isCustom() || 
+               (!describeSObjectResultObject.isCustomSetting() &&
+              describeSObjectResultObject.isSearchable() && 
+                       describeSObjectResultObject.getRecordTypeInfos().size() > 0  &&
+            describeSObjectResultObject.isAccessible() &&
+            describeSObjectResultObject.isQueryable())) {
+               String name = objectType.getDescribe().getName();
+               String label = objectType.getDescribe().getLabel();
+               sObjectTypesList.add(name);
+            }
         }
+        sObjectTypesList.sort();
         return sObjectTypesList;
     }
 
@@ -47,7 +57,14 @@ public with sharing class SearchController{
         List<String> fieldsList = new List<String>();
         for(Schema.SObjectField field : fieldsMap.values()) {
             String fieldName = field.getDescribe().getName();
-            fieldsList.add(fieldName);
+            if (field.getDescribe().isNameField()) {
+                fieldsList.clear();
+                fieldsList.add(fieldName);
+                return fieldsList;
+            }
+            if (!field.getDescribe().isNillable() && field.getDescribe().isAccessible()) {
+                fieldsList.add(fieldName);
+            }
         }
         return fieldsList;
     }

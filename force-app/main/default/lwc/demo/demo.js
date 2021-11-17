@@ -2,18 +2,15 @@ import { LightningElement, track } from 'lwc';
 import getSObjectTypeFields from '@salesforce/apex/SearchController.getSObjectTypeFields';
 
 export default class Demo extends LightningElement {
-    @track fields = ['Name'];
+    @track fields = [];
     sObjectSelected = false;
     sObjectApiName;
     labelName;
     whereConditions = '';
-    orderByAsc = 'Name';
+    orderByAsc = '';
     orderByDesc = '';
     limitCondition = 3;
     placeholder = 'Search...';
-    searchKey = '';
-    //?
-    @track fieldsNames = [];
 
     handleSelection(event) {
         this.sObjectSelected = true;
@@ -25,15 +22,16 @@ export default class Demo extends LightningElement {
             this.labelName = this.sObjectApiName;
         }
         this.labelName = this.formatString(this.labelName);
-        this.fieldsNames = [];
+        this.fields = [];
         getSObjectTypeFields({
             sObjectName: this.sObjectApiName
         })
             .then(result => {
                 for (const fieldName of result) {
-                    this.fieldsNames = [... this.fieldsNames, fieldName];
+                    this.fields = [... this.fields, fieldName];
                 }
-                console.log('fields : ', this.fieldsNames);
+                this.orderByAsc = this.fields[0];
+                console.log('fields : ', this.fields);
             })
             .catch(error => {
                 console.error('Error:', error);

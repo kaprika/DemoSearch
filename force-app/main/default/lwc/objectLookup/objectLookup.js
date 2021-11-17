@@ -12,7 +12,7 @@ export default class ObjectLookup extends LightningElement {
     @api orderByAsc;
     @api orderByDesc;
     @api limitCondition;
-    @api searchKey = '';
+    searchKey = '';
 
     get showResultMessage() {
         return (this.objectList.length == 0 && this.searchKey.length > 1)
@@ -33,7 +33,24 @@ export default class ObjectLookup extends LightningElement {
                     limitCondition: this.limitCondition
                 })
                     .then(result => {
-                        this.objectList = result;
+                        let stringResult = JSON.stringify(result);
+                        let allResult = JSON.parse(stringResult);
+                        allResult.forEach(record => {
+                            record.field1 = record[this.fields[0]];
+                            if (this.fields[1]) {
+                                record.field2 = record[this.fields[1]];
+                            }
+                            else {
+                                record.field2 = '';
+                            }
+                            if (this.fields[2]) {
+                                record.field3 = record[this.fields[2]];
+                            } else {
+                                record.field3 = '';
+                            }
+                        });
+                        this.objectList = allResult;
+
                     })
                     .catch(error => {
                         console.error('Error:', error);

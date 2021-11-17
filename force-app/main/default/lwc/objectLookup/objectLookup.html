@@ -2,8 +2,8 @@
     <lightning-input type="search" onchange={handleKeyChange} class="slds-m-bottom_small" label={labelName}
         value={searchKey} placeholder={placeholder}></lightning-input>
     <template if:true={objectList}>
-        <template for:each={objectList} for:item="object" for:index="index">
-            <option key={object.Id}>{object.Name}</option>
+        <template for:each={objectList} for:item="record" for:index="index">
+            <option key={record.Id}>{record.field1} &nbsp; {record.field2} &nbsp; {record.field3}</option>
         </template>
         <template if:true={showResultMessage}>
             <div class="slds-var-m-vertical_small">
