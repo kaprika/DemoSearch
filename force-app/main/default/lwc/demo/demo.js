@@ -21,7 +21,6 @@ export default class Demo extends LightningElement {
         } else {
             this.labelName = this.sObjectApiName;
         }
-        this.labelName = this.formatString(this.labelName);
         this.fields = [];
         getSObjectTypeFields({
             sObjectName: this.sObjectApiName
@@ -40,11 +39,7 @@ export default class Demo extends LightningElement {
             });
     }
 
-    formatString(string) {
-        var sentence = string.toLowerCase().split(' ');
-        for (var i = 0; i < sentence.length; i++) {
-            sentence[i] = sentence[i][0].toUpperCase() + sentence[i].slice(1);
-        }
-        return sentence;
+    handleSelected(event){
+        console.log(event.detail);
     }
 }

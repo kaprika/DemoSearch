@@ -1,14 +1,17 @@
 <template>
     <lightning-input type="search" onchange={handleKeyChange} class="slds-m-bottom_small" label={labelName}
         value={searchKey} placeholder={placeholder}></lightning-input>
-    <template if:true={objectList}>
+    <template if:true={showSearchedRecords}>
         <template for:each={objectList} for:item="record" for:index="index">
-            <option key={record.Id}>{record.field1} &nbsp; {record.field2} &nbsp; {record.field3}</option>
+            <li class="slds-p-around_x-small" style="cursor: pointer;" key={record.Id} onclick={handleSelect}
+                data-record-id={record.Id}>
+                {record.field1} &nbsp; {record.field2} &nbsp; {record.field3}
+            </li>
         </template>
-        <template if:true={showResultMessage}>
-            <div class="slds-var-m-vertical_small">
-                No records found.
-            </div>
-        </template>
+    </template>
+    <template if:true={showResultMessage}>
+        <div class="slds-var-m-vertical_small">
+            No records found.
+        </div>
     </template>
 </template>

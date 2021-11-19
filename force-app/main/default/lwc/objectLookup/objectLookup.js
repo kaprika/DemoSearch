@@ -13,6 +13,9 @@ export default class ObjectLookup extends LightningElement {
     @api orderByDesc;
     @api limitCondition;
     searchKey = '';
+    selectedRecord;
+    recordId;
+    showSearchedRecords = false;
 
     get showResultMessage() {
         return (this.objectList.length == 0 && this.searchKey.length > 1)
@@ -50,7 +53,8 @@ export default class ObjectLookup extends LightningElement {
                             }
                         });
                         this.objectList = allResult;
-
+                        this.showSearchedRecords = (this.objectList.length != 0);
+                        console.log('data : ' + this.objectList.length);
                     })
                     .catch(error => {
                         console.error('Error:', error);
@@ -59,8 +63,19 @@ export default class ObjectLookup extends LightningElement {
                     });
             }
             else {
-                this.objectList = [];
+                this.showSearchedRecords = false;
             }
         }, DELAY);
+    }
+
+    handleSelect(event) {
+        this.showSearchedRecords = false;
+        this.recordId = event.target.dataset.recordId;
+        this.selectedRecord = this.objectList.find((item) => {
+            return item.Id === this.recordId;
+        });
+        this.searchKey = this.selectedRecord[this.fields[0]];
+        const selectedEvent = new CustomEvent('selected', { detail: this.recordId });
+        this.dispatchEvent(selectedEvent);
     }
 }

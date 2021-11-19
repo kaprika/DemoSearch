@@ -2,14 +2,14 @@ import { LightningElement, wire, track } from 'lwc';
 import getSObjectTypes from '@salesforce/apex/SearchController.getSObjectTypes';
 
 export default class SobjectToSearch extends LightningElement {
-    value = '';
+    objectApiName = '';
     @track sObjectTypes = [];
 
     @wire(getSObjectTypes, {})
     retrieveSObjectTypes({ error, data }) {
         if (data) {
-            for (const sObjectName of data) {
-                const option = { label: sObjectName, value: sObjectName };
+            for (const sObjectName in data) {
+                const option = { label: data[sObjectName], value: sObjectName };
                 this.sObjectTypes = [...this.sObjectTypes, option];
             }
         }
@@ -19,8 +19,8 @@ export default class SobjectToSearch extends LightningElement {
     }
 
     handleChange(event) {
-        this.value = event.detail.value;
-        const selectedEvent = new CustomEvent('selected', { detail: this.value });
+        this.objectApiName = event.detail.value;
+        const selectedEvent = new CustomEvent('selected', { detail: this.objectApiName });
         this.dispatchEvent(selectedEvent);
     }
 }
